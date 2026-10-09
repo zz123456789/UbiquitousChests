@@ -1,0 +1,35 @@
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# gradle
+build
+.gradle
+
+# other
+eclipse
+run
+run-*/
+
+# Files from Forge MDK
+forge*changelog.txt
+*.log
+release/
+__pycache__/
+validation-*.json
+.env
+.env.*
+*credentials*.json
+publishing/*-state.json
+publishing/*-result.json

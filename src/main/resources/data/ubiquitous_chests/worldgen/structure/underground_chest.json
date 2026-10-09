@@ -1,0 +1,7 @@
+{
+  "type": "ubiquitous_chests:underground_chest",
+  "biomes": { "type": "forge:any" },
+  "step": "top_layer_modification",
+  "spawn_overrides": {},
+  "terrain_adaptation": "none"
+}

@@ -1,0 +1,43 @@
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="Ubiquitous Chests | 随处可见的宝箱"
+authors="${mod_authors}"
+displayURL="https://github.com/zz123456789/UbiquitousChests"
+description='''
+随处可见的宝箱：在各类群系地下随机发现仅含一个战利品宝箱的结构。
+支持 /locate；生成概率、地下深度、群系和维度黑名单、战利品均可配置。
+Discover configurable single-chest underground structures throughout your world.
+'''
+
+[[dependencies.${mod_id}]]
+modId="forge"
+mandatory=true
+versionRange="${forge_version_range}"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="jei"
+mandatory=false
+versionRange="[15,16)"
+ordering="AFTER"
+side="CLIENT"
+
+[[dependencies.${mod_id}]]
+modId="jeresources"
+mandatory=false
+versionRange="[1.4.0,1.5)"
+ordering="AFTER"
+side="CLIENT"
+
+[[dependencies.${mod_id}]]
+modId="minecraft"
+mandatory=true
+versionRange="${minecraft_version_range}"
+ordering="NONE"
+side="BOTH"

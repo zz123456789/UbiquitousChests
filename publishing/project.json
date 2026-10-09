@@ -1,0 +1,16 @@
+{
+  "slug": "ubiquitous-chests",
+  "title": "Ubiquitous Chests",
+  "description": "Discover single-chest underground structures with configurable generation, loot, and optional JEI/JER integration.",
+  "project_type": "mod",
+  "categories": ["worldgen", "adventure"],
+  "additional_categories": ["utility"],
+  "client_side": "required",
+  "server_side": "required",
+  "license_id": "MIT",
+  "license_url": "https://github.com/zz123456789/UbiquitousChests/blob/main/LICENSE",
+  "source_url": "https://github.com/zz123456789/UbiquitousChests",
+  "issues_url": "https://github.com/zz123456789/UbiquitousChests/issues",
+  "is_draft": true,
+  "initial_versions": []
+}

@@ -1,0 +1,4 @@
+{
+  "structures": [{ "structure": "ubiquitous_chests:underground_chest", "weight": 1 }],
+  "placement": { "type": "ubiquitous_chests:configured" }
+}
