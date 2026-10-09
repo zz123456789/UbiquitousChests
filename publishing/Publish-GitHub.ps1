@@ -27,23 +27,23 @@ try {
     $remote = Invoke-RestMethod "$api/repos/zz123456789/UbiquitousChests/commits/main" -Headers $headers
     if ($remote.sha -ne $sha) { throw 'Remote main does not match the local release commit.' }
     $version = '1.0.2'
-    $release = $null
-    try { $release = Invoke-RestMethod "$api/repos/zz123456789/UbiquitousChests/releases/tags/v$version" -Headers $headers }
+    $ghRelease = $null
+    try { $ghRelease = Invoke-RestMethod "$api/repos/zz123456789/UbiquitousChests/releases/tags/v$version" -Headers $headers }
     catch { if ([int]$_.Exception.Response.StatusCode -ne 404) { throw } }
-    if (!$release) {
+    if (!$ghRelease) {
         $body = @{tag_name="v$version";target_commitish=$sha;name="Ubiquitous Chests $version";body=(Get-Content "$PSScriptRoot/CHANGELOG-$version.en.md" -Raw);draft=$true;prerelease=$false}
-        $release = Invoke-RestMethod "$api/repos/zz123456789/UbiquitousChests/releases" -Method Post -Headers $headers -ContentType 'application/json' -Body ($body | ConvertTo-Json)
+        $ghRelease = Invoke-RestMethod "$api/repos/zz123456789/UbiquitousChests/releases" -Method Post -Headers $headers -ContentType 'application/json' -Body ($body | ConvertTo-Json)
     }
     $jar = Get-Item "$root/build/libs/ubiquitous_chests-$version.jar"
     $hash = (Get-FileHash $jar.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
-    $asset = $release.assets | Where-Object {$_.name -eq $jar.Name} | Select-Object -First 1
+    $asset = $ghRelease.assets | Where-Object {$_.name -eq $jar.Name} | Select-Object -First 1
     if (!$asset) {
-        $upload = ($release.upload_url -split '\{')[0] + '?name=' + [Uri]::EscapeDataString($jar.Name)
+        $upload = ($ghRelease.upload_url -split '\{')[0] + '?name=' + [Uri]::EscapeDataString($jar.Name)
         if (!$upload.StartsWith('https://uploads.github.com/')) { throw 'Unexpected upload host.' }
         $asset = Invoke-RestMethod $upload -Method Post -Headers $headers -ContentType 'application/java-archive' -InFile $jar.FullName
     }
     if ($asset.digest -ne "sha256:$hash") { throw 'GitHub asset digest mismatch.' }
-    $release = Invoke-RestMethod "$api/repos/zz123456789/UbiquitousChests/releases/$($release.id)" -Method Patch -Headers $headers -ContentType 'application/json' -Body '{"draft":false,"make_latest":"true"}'
-    @{url=$release.html_url;commit=$sha;version=$version;sha256=$hash} | ConvertTo-Json | Set-Content "$PSScriptRoot/github-result.json" -Encoding utf8
-    Write-Output "Published and hash-verified release: $($release.html_url)"
+    $ghRelease = Invoke-RestMethod "$api/repos/zz123456789/UbiquitousChests/releases/$($ghRelease.id)" -Method Patch -Headers $headers -ContentType 'application/json' -Body '{"draft":false,"make_latest":"true"}'
+    @{url=$ghRelease.html_url;commit=$sha;version=$version;sha256=$hash} | ConvertTo-Json | Set-Content "$PSScriptRoot/github-result.json" -Encoding utf8
+    Write-Output "Published and hash-verified release: $($ghRelease.html_url)"
 } finally { $headers.Clear() }
